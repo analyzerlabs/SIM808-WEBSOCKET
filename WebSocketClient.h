@@ -85,41 +85,42 @@ http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-75
   
 class WebSocketClient {
 public:
+	WebSocketClient(char * path, char * host);
 
-    // Handle connection requests to validate and process/refuse
-    // connections.
-    bool handshake(DFRobot_SIM808 &client);
-    
-    // Get data off of the stream
-    bool getData(String& data, uint8_t *opcode = NULL);
+	// Handle connection requests to validate and process/refuse
+	// connections.
+	bool handshake(DFRobot_SIM808 &client);
+	
+	// Get data off of the stream
+	bool getData(String& data, uint8_t *opcode = NULL);
 
-    // Write data to the stream
-    void sendData(const char *str, uint8_t opcode = WS_OPCODE_TEXT);
-    void sendData(String str, uint8_t opcode = WS_OPCODE_TEXT);
+	// Write data to the stream
+	bool sendData(const char *str, uint8_t opcode = WS_OPCODE_TEXT);
+	bool sendData(String str, uint8_t opcode = WS_OPCODE_TEXT);
 
-    char *path;
-    char *host;
-    char *protocol;
+	char *path;
+	char *host;
+	char *protocol;
 
 private:
 	DFRobot_SIM808 *socket_client;
 	unsigned long _startMillis;
 
-    const char *socket_urlPrefix;
+	const char *socket_urlPrefix;
 
-    // Discovers if the client's header is requesting an upgrade to a
-    // websocket connection.
-    bool analyzeRequest();
+	// Discovers if the client's header is requesting an upgrade to a
+	// websocket connection.
+	bool analyzeRequest();
 
-    bool handleStream(String& data, uint8_t *opcode);    
-    
-    // Disconnect user gracefully.
-    void disconnectStream();
-    
-    int timedRead();
+	bool handleStream(String& data, uint8_t *opcode);    
+	
+	// Disconnect user gracefully.
+	void disconnectStream();
+	
+	int timedRead();
 
-    void sendEncodedData(char *str, uint8_t opcode);
-    void sendEncodedData(String str, uint8_t opcode);
+	void sendEncodedData(char *str, uint8_t opcode);
+	void sendEncodedData(String str, uint8_t opcode);
 };
 
 
